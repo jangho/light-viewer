@@ -1,0 +1,175 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Jan</title>
+    <style type="text/css">
+        .wrapper {
+            width: 1000px;
+        }
+
+        .navi {
+            width: 200px;
+            float: left;
+        }
+
+        .canvas {
+            float: left;
+            width: 500px;
+            height: 500px;
+            margin-left: 20px;
+            border: 2px solid #000;
+            position: relative;
+        }
+
+        .clear-both:after {
+            clear: both;
+        }
+
+        .lamp {
+            display: none;
+            width: 10px;
+            height: 10px;
+            border-radius: 10px;
+            background-color: #FFFF00;
+            position: absolute;
+        }
+
+        .percent {
+            display: none;
+            width: 30px;
+            height: 30px;
+            position: absolute;
+        }
+
+        .navi ul {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+
+        .navi ul li {
+            padding: 10px;
+            background-color: #000;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        #percent {
+            top: 250px;
+            left: 250px;
+        }
+    </style>
+    <script src="http://www.20s.kr/js/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript">
+        var pd = 0;
+        var px = 0;
+        var py = 0;
+        var lamp_cnt = 1;
+        $(function () {
+            $('#show-lamps').click(function () {
+                $(".lamp").css("display", "block");
+            });
+            $('#hide-lamps').click(function () {
+                $(".lamp").css("display", "none");
+            });
+            $('#show-percent').click(function () {
+                $(".percent").css("display", "block");
+            });
+            $('#hide-percent').click(function () {
+                $(".percent").css("display", "none");
+            });
+            $("#change").click(function () {
+                pd = pd + 50;
+                if (pd > 360)
+                    pd = pd - 360;
+                set_position_percent(px, py, pd);
+            });
+        });
+        function set_position_percent(x, y, degree) {
+            px = x;
+            py = y;
+            pd = degree;
+            $("#percent").css("top", y);
+            $("#percent").css("left", x);
+            $("#percent").css({
+                '-moz-transform': 'rotate(' + degree + 'deg)',
+                '-webkit-transform': 'rotate(' + degree + 'deg)',
+                '-o-transform': 'rotate(' + degree + 'deg)',
+                '-ms-transform': 'rotate(' + degree + 'deg)',
+                'transform': 'rotate(' + degree + 'deg)'
+            });
+        }
+        function set_position_lamp(num, x, y) {
+            if (num < lamp_cnt++) {
+                $(".canvas").append("<div id='lamp" + (num) + "' class='lamp'>");
+            }
+            $("#lamp" + num).css("top", y);
+            $("#lamp" + num).css("left", x);
+        }
+        function convert_x_data(num) {
+            return num * 5;
+        }
+        function convert_y_data(num) {
+            if (num == 0)
+                return 500;
+            else
+                return (500 - num * 5);
+        }
+    </script>
+</head>
+<body>
+<div class="wrapper">
+    <div class="navi">
+        <ul>
+            <li id="show-lamps">show-lamps</li>
+            <li id="hide-lamps">hide-lamps</li>
+            <li id="show-percent">show-person</li>
+            <li id="hide-percent">hide-person</li>
+            <li id="change">change person degree</li>
+        </ul>
+    </div>
+    <div class="canvas clear-both">
+        <div id="percent" class="percent"><img src="sign.png" width="30" height="30" border="0"></div>
+    </div>
+</div>
+
+
+
+
+<form action="user.php" method="get">
+
+      User X: <br><input type="number" style="width: 50px" input name="userX" placeholder="X"><br>
+      User Y: <br><input type="number" style="width: 50px" input name="userY" placeholder="Y"><br>
+      Direction: <br><input type="number" style="width: 50px" input name="direction" placeholder="Y"><br>
+
+      <input type="submit" value="Submit">
+</form>
+
+<form>
+
+      Light 1 X: <br><input type="number" style="width: 50px" name="x1" placeholder="X"><br>
+      Light 1 Y: <br><input type="number" style="width: 50px" name="y1" placeholder="Y"><br>
+
+      Light 2 X: <br><input type="number" style="width: 50px" name="x2" placeholder="X"><br>
+      Light 2 Y: <br><input type="number" style="width: 50px" name="y2" placeholder="Y"><br>
+
+      Light 3 X: <br><input type="number" style="width: 50px" name="x3" placeholder="X"><br>
+      Light 3 Y: <br><input type="number" style="width: 50px" name="y3" placeholder="Y"><br>
+
+      Light 4 X: <br><input type="number" style="width: 50px" name="x4" placeholder="X"><br>
+      Light 4 Y: <br><input type="number" style="width: 50px" name="y4" placeholder="Y"><br>
+
+      <input type="submit" value="Submit">
+
+</form>
+
+<script type="text/javascript">
+    /* server connect */
+    set_position_lamp(0, convert_x_data(20), convert_y_data(80));
+    set_position_lamp(1, convert_x_data(80), convert_y_data(80));
+    set_position_lamp(2, convert_x_data(20), convert_y_data(20));
+    set_position_lamp(3, convert_x_data(80), convert_y_data(20));
+    set_position_percent(convert_x_data(80), convert_y_data(50), 90);
+</script>
+</body>
+</html>
